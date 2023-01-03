@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,6 +11,10 @@ namespace Aircraft
         public InputAction pitchInput;
         public InputAction yawInput;
         public InputAction rollInput;
+
+        public InputAction accelerateInput;
+        public InputAction descelareteInput;
+
         public InputAction boostInput;
         public InputAction pauzeInput;
 
@@ -20,6 +25,10 @@ namespace Aircraft
             pitchInput.Enable();
               yawInput.Enable();
              rollInput.Enable();
+
+            accelerateInput.Enable();
+            descelareteInput.Enable();
+
             boostInput.Enable();
             pauzeInput.Enable();
         }
@@ -30,17 +39,24 @@ namespace Aircraft
 
             float yawValue = Mathf.Round(yawInput.ReadValue<float>());
 
-            //float rollValue = Mathf.Round(rollInput.ReadValue<float>());
+            float rollValue = Mathf.Round(rollInput.ReadValue<float>());
+
 
             float boostValue = Mathf.Round(boostInput.ReadValue<float>());
 
-            if (pitchValue == -1) pitchValue = 2f;
+            float accelerate = Mathf.Round(accelerateInput.ReadValue<float>()); ;
+            float descelerate = Mathf.Round(descelareteInput.ReadValue<float>());
 
-            if (yawValue == -1) yawValue = 2f;
+            //Debug.Log(pitchValue);
 
             actionsOut[0] = pitchValue;
             actionsOut[1] = yawValue;
-            actionsOut[2] = boostValue;
+            actionsOut[2] = rollValue;
+
+            actionsOut[3] = boostValue;
+
+            actionsOut[4] = accelerate;
+            actionsOut[5] = descelerate;
         }
 
         private void OnDestroy()
@@ -50,6 +66,9 @@ namespace Aircraft
              rollInput.Disable();
             boostInput.Disable();
             pauzeInput.Disable();
+
+            accelerateInput.Disable();
+            descelareteInput.Disable();
         }
     }
 }

@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &855747030117755456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2824414027377996899}
+  m_Layer: 0
+  m_Name: CamSocket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2824414027377996899
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855747030117755456}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.38, z: -4.152}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1121668515943358454}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1384910462200452160
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,6 +510,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3242213270923948874}
+  - {fileID: 2824414027377996899}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -519,13 +550,13 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4164613915014983141}
   serializedVersion: 2
-  m_Mass: 500
-  m_Drag: 5
-  m_AngularDrag: 25
-  m_UseGravity: 1
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.25
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!96 &6944377589515190084
 TrailRenderer:
@@ -567,7 +598,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 5
+  m_Time: 3
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -639,7 +670,7 @@ MonoBehaviour:
   m_BrainParameters:
     VectorObservationSize: 0
     NumStackedVectorObservations: 1
-    VectorActionSize: 030000000300000002000000
+    VectorActionSize: 030000000300000003000000020000000200000002000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
   m_Model: {fileID: 0}
@@ -664,11 +695,11 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  thrust: 100000
-  pitchSpeed: 100
-  yawSpeed: 100
-  rollSpeed: 100
-  boostMultiplier: 2
+  propellor: {fileID: 1384910462200452160}
+  stabilizer: {fileID: 7077304740595847637}
+  stepTimeOut: 1000
+  meshObject: {fileID: 0}
+  explosionEffect: {fileID: 0}
   pitchInput:
     m_Name: Pitch Input
     m_Type: 0
@@ -719,7 +750,7 @@ MonoBehaviour:
       m_Flags: 4
     - m_Name: negative
       m_Id: 2881b8f1-a0d7-4d6d-8393-b92aa959ca76
-      m_Path: <Keyboard>/a
+      m_Path: <Keyboard>/q
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -727,7 +758,7 @@ MonoBehaviour:
       m_Flags: 8
     - m_Name: positive
       m_Id: 832d5c47-42aa-4baa-8033-e46f6f508e47
-      m_Path: <Keyboard>/d
+      m_Path: <Keyboard>/e
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -740,7 +771,63 @@ MonoBehaviour:
     m_Id: 06827cd6-1d85-4f0d-8cf0-79437f507ce1
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings: []
+    m_SingletonActionBindings:
+    - m_Name: 1D Axis
+      m_Id: 0890fce1-b4ce-4d3f-9408-b166c0691362
+      m_Path: 1DAxis
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Roll Input
+      m_Flags: 4
+    - m_Name: negative
+      m_Id: 8fd68e9a-2b96-46f3-ac05-48dedc4c38eb
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Roll Input
+      m_Flags: 8
+    - m_Name: positive
+      m_Id: 76527ce9-a4a5-40c7-8033-3b0cf41c7107
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Roll Input
+      m_Flags: 8
+  accelerateInput:
+    m_Name: Accelerate Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 9d7d9f36-9cf0-49b4-9f87-cb8d029b0122
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 55a4cabc-38de-4d8c-a9e4-ec35cdc199ee
+      m_Path: <Keyboard>/upArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Accelerate Input
+      m_Flags: 0
+  descelareteInput:
+    m_Name: Descelarete Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: b2629880-8978-45b4-a692-84cc8cef1bf9
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 71714716-458c-4a4a-bed9-64890a7a2586
+      m_Path: <Keyboard>/downArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Descelarete Input
+      m_Flags: 0
   boostInput:
     m_Name: Boost Input
     m_Type: 0
