@@ -22,9 +22,10 @@ namespace Aircraft
         {
             base.Initialize();
 
+            //enabling the input otherwise it doesnt register
             pitchInput.Enable();
-              yawInput.Enable();
-             rollInput.Enable();
+            yawInput.Enable();
+            rollInput.Enable();
 
             accelerateInput.Enable();
             descelareteInput.Enable();
@@ -35,12 +36,19 @@ namespace Aircraft
 
         public override void Heuristic(float[] actionsOut)
         {
+
+            //reading the values from the inputsw
             float pitchValue = Mathf.Round(pitchInput.ReadValue<float>());
+
+            if (pitchValue == -1) pitchValue = 2;
 
             float yawValue = Mathf.Round(yawInput.ReadValue<float>());
 
+            if (yawValue == -1) yawValue = 2;
+
             float rollValue = Mathf.Round(rollInput.ReadValue<float>());
 
+            if (rollValue == -1) rollValue = 2;
 
             float boostValue = Mathf.Round(boostInput.ReadValue<float>());
 
@@ -49,6 +57,7 @@ namespace Aircraft
 
             //Debug.Log(pitchValue);
 
+            //inserting the values in the right direction
             actionsOut[0] = pitchValue;
             actionsOut[1] = yawValue;
             actionsOut[2] = rollValue;
@@ -61,9 +70,10 @@ namespace Aircraft
 
         private void OnDestroy()
         {
+            //disable inputs on destroy
             pitchInput.Disable();
-              yawInput.Disable();
-             rollInput.Disable();
+            yawInput.Disable();
+            rollInput.Disable();
             boostInput.Disable();
             pauzeInput.Disable();
 
