@@ -12,29 +12,43 @@ namespace Aircraft
 {
     public class AircraftAgent : Agent
     {
-        private float throttleIncrement = 0.5f;
-        private float throttle;
-        
-        private float responsiveness = 5f;
+        //private float throttleIncrement = 0.5f;
+        //private float throttle = 5f;
 
-        private float pitch;
-        private float yaw;
-        private float roll;
+        // private float responsiveness = 5f;
 
-        private float responseModifier;
+        //private float pitch;
+        // private float yaw;
+        //private float roll;
 
-        bool isAccelerating = false;
-        bool isDescelerating = false;
+        // private float responseModifier;
+
+        //bool isAccelerating = false;
+        //bool isDescelerating = false;
+
+        public float thrust = 1f;
+        public float pitchSpeed = 50f;
+        public float yawSpeed = 50f;
+        public float rollSpeed = 50f;
+
+        private float pitchChange = 0f;
+        private float smoothPitchChange = 0f;
+        private float maxPitchAngle = 45f;
+        private float yawChange = 0f;
+        private float smoothYawChange = 0f;
+        private float rollChange = 0f;
+        private float smoothRollChange = 0f;
+        private float maxRollAngle = 45;
 
         private bool boost;
 
-        new private Rigidbody rigidbody;
+        new protected Rigidbody rigidbody;
         private TrailRenderer trail;
+        private AircraftArea area;
 
         public Transform propellor;
-        public Transform stabilizer;
 
-        public int stepTimeOut = 50000;
+        public int stepTimeOut = 300;
         private float nextStepTimeOut;
 
         private bool frozen = false;
@@ -42,36 +56,21 @@ namespace Aircraft
         public GameObject meshObject;
         public GameObject explosionEffect;
 
-        private Vector3 originalPos;
-
-        public bool isTraining;
-
-        private Vector3 startPlayerPosition;
-        private Quaternion startPlayerRotation;
-        private Transform currentPlayerTransform;
-
-        private int playerRadius = 250000;
+        public int nextCheckPointIndex { get; set; }
 
         public override void Initialize()
         {
             rigidbody= GetComponent<Rigidbody>();
             trail= GetComponent<TrailRenderer>();
+            area = GetComponentInParent<AircraftArea>();
 
             if (rigidbody == null) return;
 
             //logic for plane rotating
-            responseModifier = rigidbody.mass / 10f * responsiveness;
-
-            //storing original position to reset the player
-            originalPos = transform.position;
+            //responseModifier = rigidbody.mass / 10f * responsiveness;
 
             //when not training infinite steps
-            MaxStep = isTraining? 5000 : 0;
-
-            currentPlayerTransform = FindObjectOfType<AircraftPlayer>().transform;
-
-            startPlayerPosition = transform.position;
-            startPlayerRotation = transform.rotation;
+            MaxStep = area.isTraining ? 5000 : 0;
 
         }
 
@@ -86,12 +85,11 @@ namespace Aircraft
 
             trail.emitting = false;
 
-            throttle = 0;
+            //throttle = 5;
 
-            rigidbody.position = startPlayerPosition;
-            rigidbody.rotation = startPlayerRotation;
+            area.ResetAgentPosition(this, area.isTraining);
 
-            if (isTraining) nextStepTimeOut = StepCount + stepTimeOut;
+            if (area.isTraining) nextStepTimeOut = StepCount + stepTimeOut;
 
         }
 
@@ -105,72 +103,57 @@ namespace Aircraft
             }
 
             //process the input from the heuristic
-            pitch = vectorAction[0];
+            pitchChange = vectorAction[0];
 
-            if (pitch == 2) pitch = -1;
+            if (pitchChange == 2f) pitchChange = -1f;
 
-            yaw = vectorAction[1];
+            yawChange = vectorAction[1];
 
-            if (yaw == 2) yaw = -1;
+            if (yawChange == 2f) yawChange = -1f;
 
-            roll = vectorAction[2];
-
-            if (roll == 2) roll = -1;
-
-            //roll *= -1;
-
-            boost = vectorAction[3] == 1;
-
-            //when only up arrow is pressed accelerate
-            isAccelerating = (vectorAction[4] == 1 && vectorAction[5] == 0);
-
-            isDescelerating= vectorAction[5] == 1;
+            boost = vectorAction[2] == 1;
 
             //trail when boosting
             if (boost && !trail.emitting) { trail.Clear(); }
 
             trail.emitting = boost;
 
-
             ProcessMovement();
 
-            if(isTraining)
+            if(area.isTraining)
             {
                 //negative reward every step
 
                 AddReward(-1f / MaxStep);
 
-                if(throttle < 75f)
+                /*if(throttle < 5f)
                 {
-                    AddReward(-0.1f);
+                    AddReward(-0.01f);
                     //Debug.Log("To slow");
-                }
+                }*/
 
                 //check if time is up
 
-                if(StepCount > nextStepTimeOut)
+                if (StepCount > nextStepTimeOut)
                 {
                     AddReward(-0.5f);
                     EndEpisode();
                     //Debug.Log("Out of steps");
                 }
 
-                Vector3 localPlayerDirection = currentPlayerTransform.position - transform.position;
+                Vector3 localCheckpointDir = VectorToNextCheckpoint();
 
-                if (localPlayerDirection.sqrMagnitude < playerRadius)
+                if (localCheckpointDir.magnitude < Academy.Instance.EnvironmentParameters.GetWithDefault("checkpoint_radius", 0))
                 {
 
-                    
-                    AddReward(0.5f);
-                    nextStepTimeOut = StepCount + stepTimeOut;
+                    GotCheckpoint();
+                    Debug.Log("Got it by the file");
                     //Debug.Log("In range");
-
-
-                          
 
                 }
 
-                Vector3 dirToPlayer = (currentPlayerTransform.position - transform.position).normalized;
+                #region owncode
+                /*Vector3 dirToPlayer = (currentPlayerTransform.position - transform.position).normalized;
 
                 float dotprod = Vector3.Dot(dirToPlayer, transform.forward);
 
@@ -188,10 +171,28 @@ namespace Aircraft
                     AddReward(0.3f);
                     nextStepTimeOut += 50;
                     //Debug.Log("facing");
-                }
-
+                }*/
+                #endregion
             }
 
+        }
+
+        private Vector3 VectorToNextCheckpoint()
+        {
+            Vector3 nextDir = area.checkPoints[nextCheckPointIndex].transform.position - transform.position;
+
+            return transform.InverseTransformDirection(nextDir);
+        }
+
+        private void GotCheckpoint()
+        {
+            nextCheckPointIndex = (nextCheckPointIndex + 1) % area.checkPoints.Count;
+
+            if (!area.isTraining) return;
+
+            AddReward(0.5f);
+            nextStepTimeOut = StepCount + stepTimeOut;
+            Debug.Log("got one reward");
         }
 
         ////let the ai observe his own actions
@@ -200,13 +201,12 @@ namespace Aircraft
             //observe velocity (vector3 = 3 values)
             sensor.AddObservation(transform.InverseTransformDirection(rigidbody.velocity));
         
-            //where is player (vector3 = 3 values)
-            Vector3 localPlayerDirection = currentPlayerTransform.position - transform.position;
-            sensor.AddObservation(localPlayerDirection);
+            //where is nextcheckpoint (vector3 = 3 values)
+            sensor.AddObservation(VectorToNextCheckpoint());
         
-            //orientation of player ( vector 3 = 3 values)
-            Vector3 playerForward = currentPlayerTransform.forward;
-            sensor.AddObservation(transform.InverseTransformDirection(playerForward));
+            //orientation of pcheckpoint ( vector 3 = 3 values)
+            Vector3 checkForward = area.checkPoints[nextCheckPointIndex].transform.forward;
+            sensor.AddObservation(transform.InverseTransformDirection(checkForward));
         
             //total observations = 3 * 3 = 9
         
@@ -220,7 +220,7 @@ namespace Aircraft
         //no actions and movement when freezed
         public void FreezeAgent()
         {
-            Debug.Assert(isTraining == false, "Freeze not supported when not training");
+            Debug.Assert(area.isTraining == false, "Freeze not supported when not training");
             frozen = true;
             rigidbody.Sleep();
             trail.emitting = false;
@@ -229,9 +229,9 @@ namespace Aircraft
         //enable it again
         public void ThawAgent()
         {
-            Debug.Assert(isTraining == false, "Thaw not supported when not training");
+            Debug.Assert(area.isTraining == false, "Thaw not supported when not training");
             frozen = false;
-            throttle = 0;
+            //throttle = 0;
             rigidbody.WakeUp();
         }
 
@@ -265,29 +265,85 @@ namespace Aircraft
             #endregion
 
             //here i handle the plane movement
-            //took some time to refine
-            if (isAccelerating) throttle += throttleIncrement;
-
-            if(isDescelerating) throttle -= throttleIncrement;
-
-            throttle = Mathf.Clamp(throttle, 0f, 100f);
 
             //caculate the boost multiplier
-            float boostMulti = boost == true ? 1.2f : 1f;
+            float boostMulti = boost == true ? 1.25f : 1f;
+
+            rigidbody.velocity = transform.forward * 75 * boostMulti;
+
+            //current rotation
+            Vector3 currRot = transform.rotation.eulerAngles;
+
+            //calc roll angle
+            float rollAngle = currRot.z > 180f ? currRot.z - 360f : currRot.z;
+            
+            if(yawChange == 0f)
+            {
+                rollChange = -rollAngle / maxRollAngle;
+            }
+            else
+            {
+                rollChange = -yawChange;
+            }
+
+            //smooth the angles
+            smoothPitchChange = Mathf.MoveTowards(smoothPitchChange, pitchChange, 2f * Time.fixedDeltaTime);
+            smoothYawChange = Mathf.MoveTowards(smoothYawChange, yawChange, 2f * Time.fixedDeltaTime);
+            smoothRollChange = Mathf.MoveTowards(smoothRollChange, rollChange, 2f * Time.fixedDeltaTime);
+
+            //now calculate the rotations
+
+            float pitch = currRot.x + smoothPitchChange * Time.fixedDeltaTime * pitchSpeed;
+            if (pitch > 180f)  pitch -= 360f;
+            pitch = Mathf.Clamp(pitch, - maxPitchAngle, maxPitchAngle);
+
+            float yaw = currRot.y + smoothYawChange * Time.fixedDeltaTime * yawSpeed;
+
+            float roll = currRot.z + smoothRollChange * Time.fixedDeltaTime * rollSpeed;
+            if (roll > 180f) roll -= 360f;
+            roll = Mathf.Clamp(roll, -maxRollAngle, maxRollAngle);
+
+            transform.rotation = Quaternion.Euler(pitch, yaw, roll);
 
             //Debug.Log(throttle);
-
-            //change velocity based on speed and rotation
+            #region old
+            /*//change velocity based on speed and rotation
             rigidbody.velocity = transform.forward * throttle * boostMulti;
+
+            Debug.Log(rigidbody.velocity);
 
             //add angular speed
             if (pitch != 0) rigidbody.AddTorque(transform.right * pitch * responseModifier);
             if (  yaw != 0) rigidbody.AddTorque(transform.up * yaw * responseModifier);
-            if ( roll != 0) rigidbody.AddTorque(-transform.forward * roll * responseModifier);
+            //if ( roll != 0) rigidbody.AddTorque(-transform.forward * roll * responseModifier);
 
             //rotate the propellor based on its speed for simple visualization
-            propellor.Rotate(Vector3.forward * throttle);
 
+            propellor.Rotate(Vector3.forward * throttle);*/
+            #endregion
+
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.transform.CompareTag("checkpoint") && other.gameObject == area.checkPoints[nextCheckPointIndex])
+            {
+                GotCheckpoint();
+                Debug.Log("hello checky");
+            }
+            if(other.transform.CompareTag("level"))
+            {
+                if (area.isTraining)
+                {
+                    AddReward(-1f);
+                    EndEpisode();
+                }
+                else
+                {
+                    //Debug.Log("i did hit??");
+                    StartCoroutine(ExplosionReset());
+                }
+            }
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -297,22 +353,8 @@ namespace Aircraft
             if(!collision.transform.CompareTag("agent"))
             {
                 //hit something that isnt an agent
-                if(collision.transform.CompareTag("level"))
-                {
-                    //Debug.Log("hitting level");
 
-                }
-
-                if (isTraining)
-                {
-                    AddReward(-100f);
-                    EndEpisode();
-                }
-                else
-                {
-                    //Debug.Log("i did hit??");
-                    StartCoroutine(ExplosionReset());
-                }
+                
             }
             
         }
@@ -326,14 +368,16 @@ namespace Aircraft
             yield return new WaitForSeconds(2f);
 
             explosionEffect.SetActive(false);
+            //Debug.Log("I exploded");
             meshObject.SetActive(true);
 
-            transform.position = startPlayerPosition;
-            transform.rotation = quaternion.Euler(Vector3.zero);
+            area.ResetAgentPosition(this);
             yield return new WaitForSeconds(1f);
 
             ThawAgent();
         }
+
+        
 
     }
 }

@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &986982596771949155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2696568992371998984}
+  m_Layer: 0
+  m_Name: camSocket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2696568992371998984
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986982596771949155}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.4, z: -4.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1121668515943358454}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1384910462200452160
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,13 +148,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1470411902025288261}
-  m_LocalRotation: {x: -0.17364825, y: 0, z: 0, w: 0.9848078}
+  m_LocalRotation: {x: -0.13052624, y: 0, z: 0, w: 0.9914449}
   m_LocalPosition: {x: 0, y: 0.18, z: 2.284}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1121668515943358454}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: -20, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -15, y: 0, z: 0}
 --- !u!114 &1141203190199539356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,9 +170,9 @@ MonoBehaviour:
   m_SensorName: RaysUp
   m_DetectableTags:
   - Untagged
-  - Player
-  m_RaysPerDirection: 10
-  m_MaxRayDegrees: 160
+  - checkpoint
+  m_RaysPerDirection: 4
+  m_MaxRayDegrees: 70
   m_SphereCastRadius: 0
   m_RayLength: 500
   m_RayLayerMask:
@@ -522,7 +552,7 @@ GameObject:
   - component: {fileID: -1971004201557440297}
   m_Layer: 0
   m_Name: Airplane_Learning
-  m_TagString: Untagged
+  m_TagString: agent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -542,7 +572,8 @@ Transform:
   - {fileID: 7754356224937306945}
   - {fileID: 8270654755408509007}
   - {fileID: 227488179836661136}
-  - {fileID: 8860928058675354682}
+  - {fileID: 808879037208661998}
+  - {fileID: 2696568992371998984}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -554,7 +585,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4164613915014983141}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.75
   m_Height: 5
@@ -568,7 +599,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4164613915014983141}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 5
@@ -583,8 +614,8 @@ Rigidbody:
   m_GameObject: {fileID: 4164613915014983141}
   serializedVersion: 2
   m_Mass: 500
-  m_Drag: 5
-  m_AngularDrag: 25
+  m_Drag: 1
+  m_AngularDrag: 0.25
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -702,10 +733,10 @@ MonoBehaviour:
   m_BrainParameters:
     VectorObservationSize: 9
     NumStackedVectorObservations: 1
-    VectorActionSize: 030000000300000003000000020000000200000002000000
+    VectorActionSize: 030000000300000002000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 7cc6a75983ccb7e498cba6b51a225ccb, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: AircraftLearning
@@ -727,12 +758,15 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
+  thrust: 100000
+  pitchSpeed: 100
+  yawSpeed: 100
+  rollSpeed: 100
   propellor: {fileID: 805124676758017503}
-  stabilizer: {fileID: 0}
-  stepTimeOut: 1000
+  stepTimeOut: 800
   meshObject: {fileID: 2946728670586080364}
-  explosionEffect: {fileID: 8859771315328501174}
-  isTraining: 1
+  explosionEffect: {fileID: 8385434484964945439, guid: e8964146fc8f995448ab83ac9ed257b4,
+    type: 3}
 --- !u!114 &-1971004201557440297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -771,13 +805,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6853621259650957095}
-  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
   m_LocalPosition: {x: 0, y: 0.18, z: 2.284}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1121668515943358454}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!114 &7910051773072870133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -793,9 +827,9 @@ MonoBehaviour:
   m_SensorName: RaysDown
   m_DetectableTags:
   - Untagged
-  - Player
-  m_RaysPerDirection: 10
-  m_MaxRayDegrees: 160
+  - checkpoint
+  m_RaysPerDirection: 4
+  m_MaxRayDegrees: 70
   m_SphereCastRadius: 0
   m_RayLength: 500
   m_RayLayerMask:
@@ -852,9 +886,9 @@ MonoBehaviour:
   m_SensorName: RaysFoward
   m_DetectableTags:
   - Untagged
-  - Player
-  m_RaysPerDirection: 10
-  m_MaxRayDegrees: 160
+  - checkpoint
+  m_RaysPerDirection: 4
+  m_MaxRayDegrees: 70
   m_SphereCastRadius: 0
   m_RayLength: 500
   m_RayLayerMask:
@@ -865,7 +899,7 @@ MonoBehaviour:
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
   m_StartVerticalOffset: -0
   m_EndVerticalOffset: 0
---- !u!1001 &1056999206293384105
+--- !u!1001 &9181387185621530749
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -880,7 +914,7 @@ PrefabInstance:
     - target: {fileID: 8382149102810331027, guid: e8964146fc8f995448ab83ac9ed257b4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.608
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8382149102810331027, guid: e8964146fc8f995448ab83ac9ed257b4,
         type: 3}
@@ -930,39 +964,18 @@ PrefabInstance:
     - target: {fileID: 8385434484964945439, guid: e8964146fc8f995448ab83ac9ed257b4,
         type: 3}
       propertyPath: m_Name
-      value: MosaicExplosion (1)
+      value: MosaicExplosion
       objectReference: {fileID: 0}
     - target: {fileID: 8385434484964945439, guid: e8964146fc8f995448ab83ac9ed257b4,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8547095512259255477, guid: e8964146fc8f995448ab83ac9ed257b4,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8547343922253652703, guid: e8964146fc8f995448ab83ac9ed257b4,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8547346598057120109, guid: e8964146fc8f995448ab83ac9ed257b4,
-        type: 3}
-      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8964146fc8f995448ab83ac9ed257b4, type: 3}
---- !u!1 &8859771315328501174 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8385434484964945439, guid: e8964146fc8f995448ab83ac9ed257b4,
-    type: 3}
-  m_PrefabInstance: {fileID: 1056999206293384105}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8860928058675354682 stripped
+--- !u!4 &808879037208661998 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8382149102810331027, guid: e8964146fc8f995448ab83ac9ed257b4,
     type: 3}
-  m_PrefabInstance: {fileID: 1056999206293384105}
+  m_PrefabInstance: {fileID: 9181387185621530749}
   m_PrefabAsset: {fileID: 0}

@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 1780957288075898830}
   - component: {fileID: 5443640687094649655}
   - component: {fileID: 8850922387506568395}
+  - component: {fileID: 5106484696974713628}
   m_Layer: 0
-  m_Name: finishline
-  m_TagString: Untagged
+  m_Name: FinishLine
+  m_TagString: checkpoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,3 +95,17 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 8396678379171936878, guid: 23b58597e40f1154eb19c7b2fcff594b, type: 3}
+--- !u!114 &5106484696974713628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6032400521899403243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25502d8e4a42ebf4fa0fa67189eeb604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateSpeed: {x: 0, y: 0, z: 20}
+  randomize: 1
