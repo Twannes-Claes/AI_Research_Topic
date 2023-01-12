@@ -40,3 +40,12 @@ The observations i used are:
 - Raycasts in the foward vector of the agent, 15 angles up and 15 angles down
 
 *With That Information Only The Airplane Was Able To Learn The Whole Course*
+
+# Rewards
+
+In order for ML-Agents to learn and improve their performance, they rely on a system of rewards. Rewards are numerical values that the agent receives based on its actions and the state of the environment it's in. These rewards act as a feedback mechanism, allowing the agent to adjust its behavior in order to maximize the total reward received. Without rewards, the agent would have no way to evaluate its performance and make decisions on how to improve.
+
+**But be careful!!!**
+
+The way you implement your reward system can drastically change the way your AI's train.
+So if you see your AI's aren't training well over time, it probably has something to do with the way you are rewarding them.
