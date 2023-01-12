@@ -1,5 +1,3 @@
-------------
-
 # Machine-learning airplanes
 
 Welcome to my Machine Learning Airplane Game!
