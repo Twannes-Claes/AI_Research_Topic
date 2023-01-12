@@ -37,6 +37,6 @@ The observations i used are:
 - The agent's current linear velocity
 - The position of the next checkpoint
 - The forward vector of the next checkpoint
-- Raycasts in the foward axis of the agent, 15 angles up and 15 angles down
+- Raycasts in the foward vector of the agent, 15 angles up and 15 angles down
 
 *With That Information Only The Airplane Was Able To Learn The Whole Course*
