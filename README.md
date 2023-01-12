@@ -7,5 +7,7 @@ In this game, you take control of an airplane and navigate through a challenging
 
 # Check it out, it's AI-mazing!
 
+![](DemoAirplanesGithub.gif)
+
 # So how does it work?
 
