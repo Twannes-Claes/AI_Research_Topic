@@ -51,7 +51,13 @@ The way you implement your reward system can drastically change the way your AI'
 So if you see your AI's aren't training well over time, it probably has something to do with the way you are rewarding them.
 
 The rewards i used for my agents:
-- -0.000000001 for living every step it lives (kinda cruel but necesarry) otherwise the agent could just stand still
--   0.5 for reaching a checkpoint
+- -0.000000001 for living every step it lives (kinda cruel, but necesarry) otherwise the agent could just stand still
 - -0.5  if the he is too slow before reaching the next checkpoint
 - -1 if he collides with terrain
+-   0.5 for reaching a checkpoint
+
+
+------------
+
+###### Here are some graphs showing how the agents learned over a time of 1.5 hours: 
+
