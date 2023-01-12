@@ -59,5 +59,4 @@ The rewards i used for my agents:
 
 ------------
 
-**Here are some graphs showing how the agents learned over a time of 1.5 hours: 
-**
+**Here are some graphs showing how the agents learned over a time of 1.5 hours:**
