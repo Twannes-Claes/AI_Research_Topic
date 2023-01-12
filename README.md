@@ -27,3 +27,16 @@ Once the scene and the configuration are set up, you can start the training proc
 The training process can be monitored using TensorBoard, which is a tool that allows you to visualize the progress of the training and the performance of the agents.
 
 You can also find pre-trained models in the Unity's ML-Agents GitHub repository, which you can use as a starting point to further train the model or adapt it to your specific use case.
+
+#Observations
+
+ML-agents require observations through sensors such as cameras, audio, lasers to understand and interact with their environment. They also use ray-casting to detect objects and obstacles for navigation and decision making. Without observations, ML-agents would not be able to function.
+You can also add raw data for the observations.
+
+The observations i used are:
+- The agent's current linear velocity
+- The position of the next checkpoint
+- The forward vector of the next checkpoint
+- Raycasts in the foward axis of the agent, 15 angles up and 15 angles down
+
+*With That Information Only The Airplane Was Able To Learn The Whole Course*
