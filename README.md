@@ -14,7 +14,7 @@
 
 # So how does it work?
 
-For this project i used Unity's ML-Agents to train my airplanes.
+For this project i used [Unity's ML-Agents](https://github.com/Unity-Technologies/ml-agents) to train my airplanes.
 
 *So what is ML-Agents, and what does it do?*
 
