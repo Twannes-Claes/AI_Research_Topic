@@ -24,7 +24,7 @@ To train an agent, you will need to provide a Unity scene that serves as the env
 
 Once the scene and the configuration are set up, you can start the training process by running a python script. This script will launch the Unity environment, create the agents, and start the PPO algorithm. The algorithm will iteratively update the policy of the agents by adjusting the parameters of a neural network, based on the rewards and observations obtained during the interactions with the environment.
 
-The training process can be monitored using TensorBoard, which is a tool that allows you to visualize the progress of the training and the performance of the agents.
+The training process can be monitored using [TensorBoard](https://www.tensorflow.org/tensorboard), which is a tool that allows you to visualize the progress of the training and the performance of the agents.
 
 You can also find pre-trained models in the Unity's ML-Agents GitHub repository, which you can use as a starting point to further train the model or adapt it to your specific use case.
 
