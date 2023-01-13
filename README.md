@@ -82,3 +82,7 @@ After training an ML-Agent, the result is a neural network that has been trained
 I have developed an AI game where the player takes control of an airplane and navigates through a challenging checkpoint course, while racing against machine-learned enemies. 
 
 The game showcases the importance of providing observations and rewards for the agents in order for them to function and improve their performance. This project gave me a hands-on experience in implementing machine learning in game development and I look forward to exploring this field further in the future.
+
+# Sources
+
+https://docs.unity3d.com/Packages/com.unity.ml-agents@1.0/api/Unity.MLAgents.Agent.html
