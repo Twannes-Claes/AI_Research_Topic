@@ -41,6 +41,8 @@ The observations i used are:
 
 ---
 
+**Inputs!!!**
+
 However, to move in a specific direction, such as left, right, up, or down, the agent also needs to receive additional inputs that specify the desired movement. Without these inputs, the agent would not know which direction to move in and would be unable to take any action.
 
 My inputs:
