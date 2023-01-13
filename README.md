@@ -18,7 +18,7 @@ For this project i used [Unity's ML-Agents](https://github.com/Unity-Technologie
 
 *So what is ML-Agents, and what does it do?*
 
-ML-Agents is a Unity plugin that allows games and simulations to serve as environments for training intelligent agents. The plugin provides a set of pre-built agents and a set of Python scripts to train them using a state-of-the-art reinforcement learning algorithm called PPO (Proximal Policy Optimization).
+ML-Agents is a Unity plugin that allows games and simulations to serve as environments for training intelligent agents. The plugin provides a set of pre-built agents and a set of Python scripts to train them using a state-of-the-art reinforcement learning algorithm called [PPO (Proximal Policy Optimization)](https://towardsdatascience.com/proximal-policy-optimization-ppo-explained-abed1952457b).
 
 To train an agent, you will need to provide a Unity scene that serves as the environment and a configuration file that specifies the details of the training process, such as the number of agents, the type of observations, and the type of actions. The scene must be set up to use the ML-Agents API, which provides a set of C# scripts to interact with the agents and to send and receive messages to the Python training scripts.
 
