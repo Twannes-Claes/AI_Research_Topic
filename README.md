@@ -28,6 +28,10 @@ The training process can be monitored using TensorBoard, which is a tool that al
 
 You can also find pre-trained models in the Unity's ML-Agents GitHub repository, which you can use as a starting point to further train the model or adapt it to your specific use case.
 
+# Inputs
+
+
+
 # Observations
 
 ML-agents require observations through sensors such as cameras, audio, lasers to understand and interact with their environment. They also use ray-casting to detect objects and obstacles for navigation and decision making. Without observations, ML-agents would not be able to function.
@@ -38,6 +42,18 @@ The observations i used are:
 - The position of the next checkpoint
 - The forward vector of the next checkpoint
 - Raycasts in the foward vector of the agent, 15 angles up and 15 angles down
+
+---
+
+However, to move in a specific direction, such as left, right, up, or down, the agent also needs to receive additional inputs that specify the desired movement. Without these inputs, the agent would not know which direction to move in and would be unable to take any action.
+
+My inputs:
+
+- A: move left
+- D: move right
+-  S: pitch up
+- W: pitch down
+- space : boost
 
 *With That Information Only The Airplane Was Able To Learn The Whole Course*
 
