@@ -28,10 +28,6 @@ The training process can be monitored using TensorBoard, which is a tool that al
 
 You can also find pre-trained models in the Unity's ML-Agents GitHub repository, which you can use as a starting point to further train the model or adapt it to your specific use case.
 
-# Inputs
-
-
-
 # Observations
 
 ML-agents require observations through sensors such as cameras, audio, lasers to understand and interact with their environment. They also use ray-casting to detect objects and obstacles for navigation and decision making. Without observations, ML-agents would not be able to function.
@@ -80,3 +76,9 @@ The rewards i used for my agents:
 ![Picture showing the learning process of the agents](TensorBoard.PNG)
 
 After training an ML-Agent, the result is a neural network that has been trained to make decisions in a specific environment. This neural network, also known as the agent's decision-making model, can then be used by the ML-Agent to play and interact with the environment it was trained on. The agent uses the neural network to determine its actions in the environment, allowing it to improve its performance and achieve its goals. The goal of the training is to find the best decision-making model for the agent, so it can achieve the highest possible score or rewards in the environment.
+
+# Conclusion
+
+I have developed an AI game where the player takes control of an airplane and navigates through a challenging checkpoint course, while racing against machine-learned enemies. 
+
+The game showcases the importance of providing observations and rewards for the agents in order for them to function and improve their performance. This project gave me a hands-on experience in implementing machine learning in game development and I look forward to exploring this field further in the future.
