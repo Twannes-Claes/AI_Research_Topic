@@ -53,7 +53,7 @@ My inputs:
 - W: pitch down
 - space : boost
 
-*With That Information Only The Airplane Was Able To Learn The Whole Course*
+*With that information only the airplane was able to learn the whole course.*
 
 # Rewards
 
