@@ -62,3 +62,5 @@ The rewards i used for my agents:
 **Here are some graphs showing how the agents learned over a time of 1.5 hours:**
 
 ![Picture showing the learning process of the agents](TensorBoard.PNG)
+
+After training an ML-Agent, the result is a neural network that has been trained to make decisions in a specific environment. This neural network, also known as the agent's decision-making model, can then be used by the ML-Agent to play and interact with the environment it was trained on. The agent uses the neural network to determine its actions in the environment, allowing it to improve its performance and achieve its goals. The goal of the training is to find the best decision-making model for the agent, so it can achieve the highest possible score or rewards in the environment.
